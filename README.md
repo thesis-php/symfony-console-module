@@ -21,10 +21,18 @@ composer require thesis/symfony-console-module
 Here's a console app built with Thesis Dic and Symfony Console Module:
 
 ```php
+<?php
+
+declare(strict_types=1);
+
 use Symfony\Component\Console\Application;
-use Symfony\Component\Console\Attribute\Argument;use Symfony\Component\Console\Attribute\AsCommand;
+use Symfony\Component\Console\Attribute\Argument;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Style\SymfonyStyle;use Thesis\Dic;
+use Symfony\Component\Console\Style\SymfonyStyle;
+use Thesis\Dic;
+use Thesis\Dic\Module;
+use Thesis\Dic\Ref;
 use Thesis\SymfonyConsoleModule;
 use Thesis\SymfonyConsoleModule\AutoconfigureCommands;
 
@@ -39,22 +47,27 @@ final class GreetCommand
     }
 }
 
-final class App implements Dic\Module
+/**
+ * @implements Module<Ref<Application>>
+ */
+final readonly class App implements Module
 {
     public function configure(Dic $dic): mixed
     {
         $dic->apply(new AutoconfigureCommands());
-        $app = $dic->import(new SymfonyConsoleModule(name: 'MyApp', version: '1.0.0'));
 
         $dic->object(GreetCommand::class);
 
-        return $app;
+        return $dic->import(new SymfonyConsoleModule(
+            name: 'MyApp',
+            version: '1.0.0',
+        ));
     }
 }
 
 $status = Dic::run(
     module: new App(),
-    main: fn (Application $app) => $app->run(),
+    main: static fn (Application $app) => $app->run(),
 );
 
 exit($status);
@@ -97,7 +110,7 @@ $dic->object(LegacyGreetCommand::class)
         description: 'Legacy greet',
     ));
 
-// Keeping the name from the Command class itself requires to instantiate it
+// Omitting the name requires console application to instantiate command
 $dic->object(LegacyGreetCommand::class)
     ->tag(new LegacyCommandTag());
 ```
