@@ -10,6 +10,11 @@ Supports all registration features:
 - [lazy commands](https://symfony.com/doc/current/console/lazy_commands.html)
 - `#[Symfony\Component\Console\Attribute\AsCommand]` attribute
 
+## Requirements
+
+- PHP 8.4+
+- `symfony/console` ^6 | ^7 | ^8
+
 ## Installation
 
 ```shell
