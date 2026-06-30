@@ -19,16 +19,17 @@
     ],
     "require": {
         "php": "^8.4",
-        "symfony/console": "^8.1",
-        "thesis/dic": "^0.5@dev"
+        "symfony/console": "^6 || ^7 || ^8",
+        "thesis/dic": "^0.5.0"
     },
     "require-dev": {
-        "symfony/var-dumper": "^8.0",
+        "symfony/polyfill-php85": "^1.38.1",
+        "symfony/var-dumper": "^6 || ^7 || ^8.1.1",
         "testo/assert": "^0.1.9",
         "testo/codecov": "^0.1.11",
         "testo/data": "^0.1.6",
-        "testo/test": "^0.1.4",
-        "testo/testo": "^0.10.29"
+        "testo/test": "^0.1.5",
+        "testo/testo": "^0.10.33"
     },
     "autoload": {
         "psr-4": {

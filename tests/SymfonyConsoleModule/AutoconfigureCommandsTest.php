@@ -90,6 +90,10 @@ final class AutoconfigureCommandsTest
 
     public function methodWithAsCommandIsAutoconfigured(): void
     {
+        if (array_first(new \ReflectionClass(AsCommand::class)->getAttributes(\Attribute::class))?->newInstance()->flags === \Attribute::TARGET_CLASS) {
+            return;
+        }
+
         $commandClass = new class {
             #[AsCommand('auto:from-method', 'From method')]
             public function build(): int

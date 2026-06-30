@@ -37,17 +37,17 @@ final readonly class SymfonyConsoleModule implements Module
             ]);
 
         $dic->onTagResolution(function (TaggedRefs $taggedRefs) use ($dic, $app): void {
+            $commands = [];
+
             foreach ($taggedRefs->find(CommandTag::class) as $taggedRef) {
-                $app->call('addCommand', [
-                    $this->buildCommand($dic, $taggedRef->ref, $taggedRef->tag),
-                ]);
+                $commands[] = $this->buildCommand($dic, $taggedRef->ref, $taggedRef->tag);
             }
 
             foreach ($taggedRefs->find(LegacyCommandTag::class) as $taggedRef) {
-                $app->call('addCommand', [
-                    $this->buildLegacyCommand($dic, $taggedRef->ref, $taggedRef->tag),
-                ]);
+                $commands[] = $this->buildLegacyCommand($dic, $taggedRef->ref, $taggedRef->tag);
             }
+
+            $app->call('addCommands', [$commands]);
         });
 
         return $app;
