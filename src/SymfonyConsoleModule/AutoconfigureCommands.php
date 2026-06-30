@@ -43,7 +43,7 @@ final readonly class AutoconfigureCommands
 
         foreach ($object->methods as $method) {
             if ($method->attributes->has(AsCommand::class)) {
-                $method->autoconfigure();
+                $method->register();
             }
         }
     }

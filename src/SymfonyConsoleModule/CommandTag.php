@@ -26,7 +26,7 @@ final readonly class CommandTag implements Tag
         $names = array_filter($names, static fn(string $name) => $name !== '');
 
         return new self(
-            name: array_shift($names) ?? throw new \LogicException('Command name cannot be empty.'),
+            name: array_shift($names) ?? throw new \InvalidArgumentException('Command name cannot be empty.'),
             description: $attribute->description ?? '',
             aliases: array_values($names),
             isHidden: $isHidden,

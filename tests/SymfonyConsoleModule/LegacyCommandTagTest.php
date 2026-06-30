@@ -7,6 +7,7 @@ namespace Thesis\SymfonyConsoleModule;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Testo\Assert;
 use Testo\Codecov\Covers;
+use Testo\Expect;
 use Testo\Test;
 
 #[Test]
@@ -66,5 +67,12 @@ final class LegacyCommandTagTest
         Assert::same($tag->name, 'foo');
         Assert::same($tag->aliases, ['bar']);
         Assert::true($tag->isHidden);
+    }
+
+    public function fromAttributeEmptyNameThrowsInvalidArgumentException(): void
+    {
+        Expect::exception(\InvalidArgumentException::class)->withMessageContaining('Command name cannot be empty.');
+
+        LegacyCommandTag::fromAttribute(new AsCommand('|'));
     }
 }
